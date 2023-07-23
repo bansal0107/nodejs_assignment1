@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users</title>
+</head>
+<body>
+   
+
+<!-- Add Logout link or button -->
+<div>
+    <a href="/logout">Logout</a>
+  </div>
+  
+  <div class="container">
+    <h1>Welcome to the Users Screen</h1>
+    <p>Only admin users can access this page.</p>
+
+
+<h2>List of Users</h2>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Username</th>
+    <th>User Role</th>
+    <th>Created Date</th>
+    <th>Actions</th>
+  </tr>
+  <% users.forEach((user) => { %>
+    <tr>
+      <td><%= user.id %></td>
+      <td><%= user.name %></td>
+      <td><%= user.username %></td>
+      <td><%= user.role %></td>
+      <td><%= user.createdAt ? user.createdAt.toISOString().slice(0, 10) : 'N/A' %></td>
+      <td>
+        <% if (user.role === 'admin') { %>
+          <!-- Disable delete button for admin user -->
+          <button disabled>Delete</button>
+        <% } else { %>
+          <!-- Delete button for non-admin users -->
+          <form action="/users/<%= user.id %>/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this user?')">
+            <button type="submit">Delete</button>
+          </form>
+        <% } %>
+        <a href="/users/<%= user.id %>/edit">Edit</a>
+      </td>
+    </tr>
+  <% }); %>
+</table>
+
+
+
+
+    <div class="pagination">
+      <% if (page > 1) { %>
+        <a href="/users?page=1">First</a>
+        <a href="/users?page=<%= page - 1 %>">Previous</a>
+      <% } %>
+
+      <% if (page < totalPages) { %>
+        <a href="/users?page=<%= page + 1 %>">Next</a>
+        <a href="/users?page=<%= totalPages %>">Last</a>
+      <% } %>
+    </div>
+  </div>
+
+  <div>
+    <% if (user.role === 'admin') { %>
+      <!-- Add user link for admin users -->
+      <a href="/users/add">Add User</a>
+    <% } %>
+  </div>
+</body>
+</html>

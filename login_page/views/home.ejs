@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+</head>
+<body>
+  
+<!-- Add Logout link or button -->
+<div>
+  <a href="/logout">Logout</a>
+</div>
+
+  <div class="container">
+    <h1>Welcome, <%= user.username %>!</h1>
+    <p>Role: <%= user.role %></p>
+    <p>This is the protected dashboard page.</p>
+
+    <ul>
+      <li><a href="#">Dashboard</a></li>
+      <% if (user.role === 'admin') { %>
+        <li><a href="/users">Users</a></li>
+       
+      <% } %>
+    </ul>
+  </div>
+</body>
+</html>
